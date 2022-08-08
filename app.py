@@ -1,5 +1,7 @@
 from pathlib import Path
-from shiny import App, ui
+from shiny import App, ui, reactive, render
+
+from modules import map
 
 app_ui = ui.page_fluid(
     ui.tags.head(
@@ -75,7 +77,11 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session):
-    pass
+
+    @output
+    @render.ui
+    def display_area():
+        return map.map_ui("map")
 
 
 www_dir = Path(__file__).parent / "www"
