@@ -40,9 +40,6 @@ def map_ui():
                 max=2017,
                 value=2010
             ),
-                    #    make_slider(ns("years_value"), as.integer(year_range[1]),
-                    #          as.integer(year_range[2]), value = 2010,
-                    #          label = "Select Year"),
             ui.tags.hr(),
             ui.tags.strong(ui.tags.h3("Dataset Information")),
             ui.tags.p(

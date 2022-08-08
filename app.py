@@ -1,5 +1,5 @@
 from pathlib import Path
-from shiny import App, ui, reactive, render
+from shiny import App, ui, render
 
 from modules import map
 
