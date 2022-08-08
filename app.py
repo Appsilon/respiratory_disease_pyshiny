@@ -2,6 +2,13 @@ from pathlib import Path
 from shiny import App, ui
 
 app_ui = ui.page_fluid(
+    ui.tags.head(
+        ui.tags.link(
+            rel="stylesheet",
+            type="text/css",
+            href="style.css"
+        )
+    ),
     # top navbar
     ui.tags.div(
         ui.row(
