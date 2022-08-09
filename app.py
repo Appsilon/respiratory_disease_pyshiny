@@ -1,11 +1,12 @@
 from pathlib import Path
-from shiny import App, ui, render
+from shiny import App, ui, reactive, Session
 
 from modules import map
 
 app_ui = ui.page_fluid(
     ui.tags.head(
-        ui.tags.link(rel="stylesheet", type="text/css", href="style.css")
+        ui.tags.link(rel="stylesheet", type="text/css", href="style.css"),
+        ui.tags.script(src="index.js")
     ),
     # top navbar
     ui.tags.div(
@@ -20,7 +21,7 @@ app_ui = ui.page_fluid(
                         href="https://demo.appsilon.com/",
                     ),
                     id="logo-top",
-                )
+                ),
             ),
             ui.column(2),
             ui.column(
@@ -71,18 +72,25 @@ app_ui = ui.page_fluid(
         class_="navbar-top",
     ),
     # main area
-    # ui.output_ui("display_area"),
-    map.map_ui("map"),
+    ui.tags.div(map.map_ui("map"), id="map-container"),
     title="Respiratory Disease App",
 )
 
 
-def server(input, output, session):
+def server(input, output, session: Session):
+    @reactive.Effect
+    @reactive.event(input.tab_map)
+    async def _():
+        await session.send_custom_message(
+            "toggleActiveTab", {"activeTab": "map"}
+        )
 
-    @output
-    @render.ui
-    def display_area():
-        return map.map_ui("map")
+    @reactive.Effect
+    @reactive.event(input.tab_plot)
+    async def _():
+        await session.send_custom_message(
+            "toggleActiveTab", {"activeTab": "plot"}
+        )
 
     map.map_server("map")
 
