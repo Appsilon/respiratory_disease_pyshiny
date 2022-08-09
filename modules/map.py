@@ -1,4 +1,8 @@
 from shiny import ui, module
+from shinywidgets import output_widget, register_widget
+
+from ipywidgets import Layout
+import ipyleaflet as L
 
 
 @module.ui
@@ -38,7 +42,7 @@ def map_ui():
                 label="Select Year",
                 min=1990,
                 max=2017,
-                value=2010
+                value=2010,
             ),
             ui.tags.hr(),
             ui.tags.strong(ui.tags.h3("Dataset Information")),
@@ -61,8 +65,8 @@ def map_ui():
                     ui.tags.a(
                         "World Bank",
                         href=(
-                            "https://data.worldbank.org/indicator/" +
-                            "EN.ATM.PM25.MC.M3"
+                            "https://data.worldbank.org/indicator/"
+                            + "EN.ATM.PM25.MC.M3"
                         ),
                     )
                 ),
@@ -70,8 +74,8 @@ def map_ui():
                     ui.tags.a(
                         "OECD",
                         href=(
-                            "https://stats.oecd.org/" +
-                            "Index.aspx?DataSetCode=EXP_PM2_5"
+                            "https://stats.oecd.org/"
+                            + "Index.aspx?DataSetCode=EXP_PM2_5"
                         ),
                     )
                 ),
@@ -79,8 +83,8 @@ def map_ui():
                     ui.tags.a(
                         "Our World in Data",
                         href=(
-                            "https://ourworldindata.org/" +
-                            "grapher/respiratory-disease-death-rate"
+                            "https://ourworldindata.org/"
+                            + "grapher/respiratory-disease-death-rate"
                         ),
                     )
                 ),
@@ -104,10 +108,24 @@ def map_ui():
             ),
             class_="plot-sidebar",
         ),
-        main=ui.panel_main(),
+        main=ui.panel_main(output_widget("map", width="100%", height="85vh")),
     )
 
 
 @module.server
 def map_server(input, output, session):
-    pass
+    # Initialize and display when the session starts (1)
+    map = L.Map(
+        # TODO: this is how it's done in tutorial :)
+        basemap=L.basemaps.CartoDB.Positron,  # pyright: ignore
+        center=(51.476852, -0.000500),
+        zoom=12,
+        scroll_wheel_zoom=True,
+        min_zoom=3,
+        max_zoom=18,
+        no_wrap=True,
+        layout=Layout(width="100%", height="100%"),
+    )
+    # Add a distance scale
+    map.add_control(L.leaflet.ScaleControl(position="bottomleft"))
+    register_widget("map", map)

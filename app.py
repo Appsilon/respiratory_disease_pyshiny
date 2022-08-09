@@ -71,7 +71,8 @@ app_ui = ui.page_fluid(
         class_="navbar-top",
     ),
     # main area
-    ui.output_ui("display_area"),
+    # ui.output_ui("display_area"),
+    map.map_ui("map"),
     title="Respiratory Disease App",
 )
 
@@ -82,6 +83,8 @@ def server(input, output, session):
     @render.ui
     def display_area():
         return map.map_ui("map")
+
+    map.map_server("map")
 
 
 www_dir = Path(__file__).parent / "www"
