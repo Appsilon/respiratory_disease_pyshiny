@@ -125,3 +125,7 @@
   background-color: #f5f5f520;
   border: 1px solid #e3e3e3;
 }
+
+#plot-container {
+  visibility: hidden;
+}
