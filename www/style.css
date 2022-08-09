@@ -127,5 +127,5 @@
 }
 
 #plot-container {
-  visibility: hidden;
+  display: none;
 }
