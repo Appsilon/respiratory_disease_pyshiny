@@ -3,7 +3,6 @@ from shiny import ui, module
 from shinywidgets import (
     output_widget,
     render_widget,
-    register_widget,
 )
 from utils.sidebar_text import (
     about_text,
@@ -42,9 +41,9 @@ def plot_ui():
             class_="plot-sidebar",
         ),
         main=ui.panel_main(
-            output_widget("dr_plot", width="100%", height="300px"),
+            output_widget("dr_plot"),
             ui.tags.hr(),
-            output_widget("pm_plot", width="100%", height="300px"),
+            output_widget("pm_plot"),
         ),
     )
 
@@ -52,21 +51,17 @@ def plot_ui():
 @module.server
 def plot_server(input, output, session):
 
-    trace = go.Heatmap(
-        z=[[1, 20, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
-        x=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        y=["Morning", "Afternoon", "Evening"],
-    )
-    data = [trace]
-    layout = go.Layout(title="Activity Heatmap")
+    fig_one = go.FigureWidget().add_scatter(x=[1, 2, 3], y=[10, 11, 12])
+    fig_one.layout.title = "Figure One"  # pyright: ignore
+    fig_two = go.FigureWidget().add_scatter(x=[1, 2, 3], y=[12, 11, 10])
+    fig_two.layout.title = "Figure Two"  # pyright: ignore
 
-    f1 = go.FigureWidget(data, layout)
-    f2 = go.FigureWidget(data, layout)
+    @output(suspend_when_hidden=False)
+    @render_widget
+    def dr_plot():
+        return fig_one
 
-    # TODO: none of these methods work to display the plot
-    register_widget("dr_plot", f1)
-
-    @output
+    @output(suspend_when_hidden=False)
     @render_widget
     def pm_plot():
-        return f2
+        return fig_two
