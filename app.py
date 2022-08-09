@@ -15,7 +15,9 @@ app_ui = ui.page_fluid(
                 2,
                 ui.tags.div(
                     ui.tags.a(
-                        ui.tags.img(src="static/img/appsilon-logo.png", height="50px"),
+                        ui.tags.img(
+                            src="static/img/appsilon-logo.png", height="50px"
+                        ),
                         href="https://demo.appsilon.com/",
                     ),
                     id="logo-top",
@@ -48,7 +50,9 @@ app_ui = ui.page_fluid(
             ui.column(
                 2,
                 ui.tags.div(
-                    ui.input_switch(id="dataset", label="Dataset Select", value=True),
+                    ui.input_switch(
+                        id="dataset", label="Dataset Select", value=True
+                    ),
                     id="div-navbar-selector",
                 ),
             ),
@@ -81,12 +85,16 @@ def server(input, output, session: Session):
     @reactive.Effect
     @reactive.event(input.tab_map)
     async def _():
-        await session.send_custom_message("toggleActiveTab", {"activeTab": "map"})
+        await session.send_custom_message(
+            "toggleActiveTab", {"activeTab": "map"}
+        )
 
     @reactive.Effect
     @reactive.event(input.tab_plot)
     async def _():
-        await session.send_custom_message("toggleActiveTab", {"activeTab": "plot"})
+        await session.send_custom_message(
+            "toggleActiveTab", {"activeTab": "plot"}
+        )
 
 
 www_dir = Path(__file__).parent / "www"
