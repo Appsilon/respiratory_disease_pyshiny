@@ -19,18 +19,29 @@ about_text = TagList(
     ),
 )
 
-slider_text = TagList(
-    tags.p(
-        """
-        Please use the slider below to choose the year. The map will
-        reflect data for the input
-        """,
-        style="""
-        text-align: justify;
-        word-break:break-word;
-        hyphens: auto;
-        """,
-    )
+slider_text_map = tags.p(
+    """
+    Please use the slider below to choose the year. The map will
+    reflect data for the input
+    """,
+    style="""
+    text-align: justify;
+    word-break:break-word;
+    hyphens: auto;
+    """,
+)
+
+slider_text_plot = tags.p(
+    """
+    Please use the slider below to change the years as well as the
+    dropdown to select the countries to compare. By default, the mean
+    data for the World is plotted.
+    """,
+    style="""
+    text-align: justify;
+    word-break:break-word;
+    hyphens: auto;
+    """,
 )
 
 dataset_information = TagList(

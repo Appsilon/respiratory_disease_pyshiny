@@ -8,7 +8,7 @@ from utils.sidebar_text import (
     about_text,
     missing_note,
     dataset_information,
-    slider_text,
+    slider_text_map,
 )
 
 
@@ -18,7 +18,7 @@ def map_ui():
         sidebar=ui.panel_sidebar(
             about_text,
             ui.tags.hr(),
-            slider_text,
+            slider_text_map,
             ui.tags.br(),
             ui.input_slider(
                 id="years_value",

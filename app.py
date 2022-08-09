@@ -1,12 +1,12 @@
 from pathlib import Path
 from shiny import App, ui, reactive, Session
 
-from modules import map
+from modules import map, plot
 
 app_ui = ui.page_fluid(
     ui.tags.head(
         ui.tags.link(rel="stylesheet", type="text/css", href="style.css"),
-        ui.tags.script(src="index.js")
+        ui.tags.script(src="index.js"),
     ),
     # top navbar
     ui.tags.div(
@@ -15,9 +15,7 @@ app_ui = ui.page_fluid(
                 2,
                 ui.tags.div(
                     ui.tags.a(
-                        ui.tags.img(
-                            src="static/img/appsilon-logo.png", height="50px"
-                        ),
+                        ui.tags.img(src="static/img/appsilon-logo.png", height="50px"),
                         href="https://demo.appsilon.com/",
                     ),
                     id="logo-top",
@@ -50,9 +48,7 @@ app_ui = ui.page_fluid(
             ui.column(
                 2,
                 ui.tags.div(
-                    ui.input_switch(
-                        id="dataset", label="Dataset Select", value=True
-                    ),
+                    ui.input_switch(id="dataset", label="Dataset Select", value=True),
                     id="div-navbar-selector",
                 ),
             ),
@@ -73,26 +69,24 @@ app_ui = ui.page_fluid(
     ),
     # main area
     ui.tags.div(map.map_ui("map"), id="map-container"),
+    ui.tags.div(plot.plot_ui("plot"), id="plot-container"),
     title="Respiratory Disease App",
 )
 
 
 def server(input, output, session: Session):
+    map.map_server("map")
+    plot.plot_server("plot")
+
     @reactive.Effect
     @reactive.event(input.tab_map)
     async def _():
-        await session.send_custom_message(
-            "toggleActiveTab", {"activeTab": "map"}
-        )
+        await session.send_custom_message("toggleActiveTab", {"activeTab": "map"})
 
     @reactive.Effect
     @reactive.event(input.tab_plot)
     async def _():
-        await session.send_custom_message(
-            "toggleActiveTab", {"activeTab": "plot"}
-        )
-
-    map.map_server("map")
+        await session.send_custom_message("toggleActiveTab", {"activeTab": "plot"})
 
 
 www_dir = Path(__file__).parent / "www"
