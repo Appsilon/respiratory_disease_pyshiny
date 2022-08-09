@@ -58,7 +58,7 @@ app_ui = ui.page_fluid(
                     ui.input_action_button(
                         id="info_icon",
                         label=None,
-                        icon="circle",  # TODO: how to make an icon?
+                        icon=ui.tags.i(class_="glyphicon glyphicon-info-sign"),
                         class_="navbar-info",
                     )
                 ),
