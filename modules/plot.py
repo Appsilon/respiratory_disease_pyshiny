@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
-from shiny import ui, module
+import plotly.express as px
+from shiny import ui, module, reactive
 from shinywidgets import (
     output_widget,
     render_widget,
@@ -10,6 +11,11 @@ from utils.sidebar_text import (
     dataset_information,
     missing_note,
 )
+import pandas as pd
+
+
+data = pd.read_csv("data/plot_data.csv")
+country_choices = data["Entity"].unique().tolist() + ["World"]
 
 
 @module.ui
@@ -25,12 +31,13 @@ def plot_ui():
                 label="Select Year",
                 min=1990,
                 max=2017,
-                value=2010,
+                value=[2010, 2015],
+                sep="",
             ),
             ui.input_select(
                 id="country_select",
                 label="Select Countries:",
-                choices=["One", "Two", "Three", "World"],
+                choices=country_choices,
                 selected="World",
                 # multiple option does not work
             ),
@@ -50,18 +57,50 @@ def plot_ui():
 
 @module.server
 def plot_server(input, output, session):
+    @reactive.Calc
+    def fig_one():
+        plot_data = data[
+            data["Year"].between(
+                input.years_value()[0], input.years_value()[1]
+            )
+        ]
+        plot_data = plot_data[plot_data["Entity"] == input.country_select()]
+        fig = px.line(
+            data_frame=plot_data,
+            x="Year",
+            y="Death.Rate",
+            color="Entity",
+            title="Death Rate From Respiratory Diseases",
+            labels={
+                "Year": "Year",
+                "Death.Rate": "Deaths per 100,000",
+            },
+        )
+        return go.FigureWidget(fig)
 
-    fig_one = go.FigureWidget().add_scatter(x=[1, 2, 3], y=[10, 11, 12])
-    fig_one.layout.title = "Figure One"  # pyright: ignore
-    fig_two = go.FigureWidget().add_scatter(x=[1, 2, 3], y=[12, 11, 10])
-    fig_two.layout.title = "Figure Two"  # pyright: ignore
+    @reactive.Calc
+    def fig_two():
+        plot_data = data[
+            data["Year"].between(
+                input.years_value()[0], input.years_value()[1]
+            )
+        ]
+        plot_data = plot_data[plot_data["Entity"] == input.country_select()]
+        fig = px.line(
+            data_frame=plot_data,
+            x="Year",
+            y="PM2.5",
+            color="Entity",
+            title="PM2.5 Measure",
+        )
+        return go.FigureWidget(fig)
 
     @output(suspend_when_hidden=False)
     @render_widget
     def dr_plot():
-        return fig_one
+        return fig_one()
 
     @output(suspend_when_hidden=False)
     @render_widget
     def pm_plot():
-        return fig_two
+        return fig_two()
