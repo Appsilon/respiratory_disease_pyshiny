@@ -13,6 +13,8 @@ from utils.helper_text import (
     dataset_information,
     slider_text_map,
 )
+from utils.map_utils import add_circles
+
 
 map_data_world_bank = read_csv("data/map_data_world_bank.csv")
 map_data_oecd = read_csv("data/map_data_oecd.csv")
@@ -26,20 +28,6 @@ def random_color(feature):
         "color": "black",
         "fillColor": random.choice(["red", "yellow", "green", "orange"]),
     }
-
-
-def determine_circle_radius(num):
-    """Logic from the original app"""
-    res = 0
-    if num < 10:
-        res = num * 0.75
-    elif num > 25:
-        res = num * 0.25
-    elif num > 0.5:
-        res = num * 0.2
-    else:
-        res = num * 0.1
-    return int(res * 10_000)
 
 
 @module.ui
@@ -114,21 +102,7 @@ def map_server(input, output, session, is_wb_data):
 
     @reactive.Effect
     def _():
-
-        # remove layers first
         circles.clear_layers()
-
-        for i in range(point_data().shape[0]):
-            row = point_data().iloc[i, :]  # pyright: ignore
-            circle = L.Circle()
-            circle.name = "points"
-            circle.location = (row.lat, row.lng)
-            circle.weight = 1
-            circle.radius = determine_circle_radius(row["Death.Rate"])
-            circle.color = "white"
-            circle.fill_color = "green"  # TODO: add palette
-            circle.fill_opacity = 0.5
-            circle.opacity = 0.7
-            circles.add_layer(circle)
+        add_circles(point_data(), circles)  # pyright: ignore
 
     register_widget("map", map)
