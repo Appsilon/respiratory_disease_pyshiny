@@ -88,8 +88,12 @@ def server(input, output, session: Session):
     def _():
         info_modal()
 
+    @reactive.Calc
+    def is_wb_data():
+        return input.dataset()
+
     map.map_server("map")
-    plot.plot_server("plot")
+    plot.plot_server("plot", is_wb_data)
 
     @reactive.Effect
     @reactive.event(input.tab_map)
