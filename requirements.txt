@@ -92,3 +92,5 @@ webencodings==0.5.1
 websockets==10.3
 widgetsnbextension==3.6.1
 xyzservices==2022.6.0
+plotly
+pandas

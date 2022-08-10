@@ -1,7 +1,7 @@
 {
   "name": "Respiratory Disease PyShiny",
-  "short_name": "respiratory_disease_pyshiny",
-  "start_url": "https://connect.appsilon.com/respiratory_disease_pyshiny",
+  "short_name": "Respiratory Disease PyShiny",
+  "start_url": "https://sparktuga.shinyapps.io/respiratory_disease_pyshiny/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
