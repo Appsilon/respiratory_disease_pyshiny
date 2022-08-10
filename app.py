@@ -4,10 +4,27 @@ from shiny import App, ui, reactive, Session
 from modules import map, plot
 from utils.helper_text import info_modal
 
-app_ui = ui.page_fluid(
+app_ui = ui.page_bootstrap(
     ui.tags.head(
         ui.tags.link(rel="stylesheet", type="text/css", href="style.css"),
         ui.tags.script(src="index.js"),
+
+        # PWA Support
+        ui.tags.script("""
+            $('head').append('<link rel="manifest" href="pwa/manifest.json"/>');
+
+            if('serviceWorker' in navigator) {
+              navigator.serviceWorker
+                .register('/respiratory_disease_pyshiny/pwa-service-worker.js', { scope: '/respiratory_disease_pyshiny/' })
+                .then(function() { console.log('Service Worker Registered'); });
+            }
+        """),
+        ui.tags.link(rel="apple-touch-icon", href="pwa/icon.png"),
+
+        ui.tags.meta(name="description", content="Respiratory Disease PyShiny"),
+        ui.tags.meta(name="theme-color", content="#000000"),
+        ui.tags.meta(name="apple-mobile-web-app-status-bar-style", content="#000000"),
+        ui.tags.meta(name="apple-mobile-web-app-capable", content="yes"),
     ),
     # top navbar
     ui.tags.div(
