@@ -1,5 +1,6 @@
-body {
-  overflow: hidden;
+html, body, .container.fluid {
+  width: 100vw;
+  min-height: 100vh;
 }
 
 .page-layout {
@@ -21,6 +22,9 @@ body {
 }
 .page-main {
   grid-area: main;
+
+  transition: opacity .5s ease;
+  opacity: 0;
 }
 
 .main-layout {
