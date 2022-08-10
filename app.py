@@ -29,72 +29,64 @@ page_dependencies = ui.tags.head(
 
 # top navbar
 page_header = ui.tags.div(
-    ui.row(
-        ui.column(
-            2,
-            ui.tags.div(
-                ui.tags.a(
-                    ui.tags.img(
-                        src="static/img/appsilon-logo.png", height="50px"
-                    ),
-                    href="https://demo.appsilon.com/",
-                ),
-                id="logo-top",
+    ui.tags.div(
+        ui.tags.a(
+            ui.tags.img(
+                src="static/img/appsilon-logo.png", height="50px"
             ),
+            href="https://demo.appsilon.com/",
         ),
-        ui.column(2),
-        ui.column(
-            2,
-            ui.tags.div(
-                ui.tags.div(
-                    ui.input_action_button(
-                        id="tab_map",
-                        label="Map",
-                        class_="navbar-button",
-                    ),
-                    id="div-navbar-map",
-                ),
-                ui.tags.div(
-                    ui.input_action_button(
-                        id="tab_plot",
-                        label="Graphs",
-                        class_="navbar-button",
-                    ),
-                    id="div-navbar-plot",
-                ),
-                id="div-navbar-tabs",
-            ),
-        ),
-        ui.column(3),
-        ui.column(
-            2,
-            ui.tags.div(
-                ui.input_switch(
-                    id="dataset", label="Dataset Select", value=True
-                ),
-                id="div-navbar-selector",
-            ),
-        ),
-        ui.column(
-            1,
-            ui.tags.div(
-                ui.input_action_button(
-                    id="info_icon",
-                    label=None,
-                    icon=ui.tags.i(class_="glyphicon glyphicon-info-sign"),
-                    class_="navbar-info",
-                )
-            ),
-        ),
+        id="logo-top",
+        class_="navigation-logo",
     ),
+
+    ui.tags.div(
+        ui.tags.div(
+            ui.input_action_button(
+                id="tab_map",
+                label="Map",
+                class_="navbar-button",
+            ),
+            id="div-navbar-map",
+        ),
+        ui.tags.div(
+            ui.input_action_button(
+                id="tab_plot",
+                label="Graphs",
+                class_="navbar-button",
+            ),
+            id="div-navbar-plot",
+        ),
+        id="div-navbar-tabs",
+        class_="navigation-menu",
+    ),
+
+    ui.tags.div(
+        ui.input_switch(
+            id="dataset", label="Dataset Select", value=True
+        ),
+        id="div-navbar-selector",
+        class_="navigation-dataset",
+    ),
+
+    ui.tags.div(
+        ui.input_action_button(
+            id="info_icon",
+            label=None,
+            icon=ui.tags.i(class_="glyphicon glyphicon-info-sign"),
+            class_="navbar-info",
+        ),
+        class_="navigation-info",
+    ),
+
     id="div-navbar",
-    class_="navbar-top page-header",
+    class_="navbar-top page-header",    
 )
 
 map_ui = ui.tags.div(
     map.map_ui("map"),
     id="map-container",
-    class_="page-main",
+    class_="page-main main-visible",
 )
 
 plot_ui = ui.tags.div(
