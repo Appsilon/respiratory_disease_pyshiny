@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 import plotly.express as px
+from pandas import read_csv
 from shiny import ui, module, reactive
 from shinywidgets import (
     output_widget,
@@ -11,11 +12,10 @@ from utils.helper_text import (
     dataset_information,
     missing_note,
 )
-import pandas as pd
 
 
-data_oecd = pd.read_csv("data/plot_data_oecd.csv")
-data_world_bank = pd.read_csv("data/plot_data_world_bank.csv")
+data_oecd = read_csv("data/plot_data_oecd.csv")
+data_world_bank = read_csv("data/plot_data_world_bank.csv")
 
 country_choices = data_oecd["Entity"].unique().tolist() + ["World"]
 
