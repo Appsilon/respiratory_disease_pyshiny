@@ -80,7 +80,7 @@ page_header = ui.tags.div(
     ),
 
     id="div-navbar",
-    class_="navbar-top page-header",    
+    class_="navbar-top page-header card-style",    
 )
 
 map_ui = ui.tags.div(
