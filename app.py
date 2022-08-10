@@ -7,6 +7,16 @@ app_ui = ui.page_fluid(
     ui.tags.head(
         ui.tags.link(rel="stylesheet", type="text/css", href="style.css"),
         ui.tags.script(src="index.js"),
+
+        # PWA Support
+        ui.tags.script(src="register-worker.js"),
+        ui.tags.link(rel="manifest", href="pwa/manifest.json"),
+        ui.tags.link(rel="apple-touch-icon", href="pwa/icon.png"),
+
+        ui.tags.link(name="description", content="Respiratory Disease PyShiny"),
+        ui.tags.link(name="theme-color", content="#000000"),
+        ui.tags.link(name="apple-mobile-web-app-status-bar-style", content="#000000"),
+        ui.tags.link(name="apple-mobile-web-app-capable", content="yes"),
     ),
     # top navbar
     ui.tags.div(
