@@ -32,8 +32,8 @@ def random_color(feature):
 
 @module.ui
 def map_ui():
-    return ui.layout_sidebar(
-        sidebar=ui.panel_sidebar(
+    return ui.tags.div(
+        ui.tags.div(
             about_text,
             ui.tags.hr(),
             slider_text_map,
@@ -49,9 +49,13 @@ def map_ui():
             dataset_information,
             ui.tags.hr(),
             missing_note,
-            class_="plot-sidebar",
+            class_="main-sidebar",
         ),
-        main=ui.panel_main(output_widget("map", width="100%", height="85vh")),
+        ui.tags.div(
+            output_widget("map", width="auto", height="auto"),
+            class_="main-main",
+        ),
+        class_="main-layout",
     )
 
 
