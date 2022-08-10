@@ -25,6 +25,7 @@ page_dependencies = ui.tags.head(
     ui.tags.meta(name="theme-color", content="#000000"),
     ui.tags.meta(name="apple-mobile-web-app-status-bar-style", content="#000000"),
     ui.tags.meta(name="apple-mobile-web-app-capable", content="yes"),
+    ui.tags.meta(name="viewport", content="width=device-width, initial-scale=1"),
 )
 
 # top navbar
@@ -80,7 +81,7 @@ page_header = ui.tags.div(
     ),
 
     id="div-navbar",
-    class_="navbar-top page-header card-style",    
+    class_="navbar-top page-header card-style",
 )
 
 map_ui = ui.tags.div(
