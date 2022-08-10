@@ -1,4 +1,5 @@
 from pandas import DataFrame
+from numpy import isnan
 from ipyleaflet import Circle, LayerGroup
 
 
@@ -17,7 +18,9 @@ def determine_circle_radius(num):
 
 
 def determine_circle_color(num):
-    if num < 1:
+    if isnan(num):
+        color = "#D2D2D2"
+    elif num < 1:
         color = "#F7FCF0"
     elif num < 2:
         color = "#E0F3DB"
