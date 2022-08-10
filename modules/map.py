@@ -1,11 +1,10 @@
 import random
 import json
-import geopandas
 from pandas import read_csv
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
-from ipywidgets import Layout
+from ipywidgets import Layout, HTML
 import ipyleaflet as L
 
 from utils.helper_text import (
@@ -27,6 +26,20 @@ def random_color(feature):
         "color": "black",
         "fillColor": random.choice(["red", "yellow", "green", "orange"]),
     }
+
+
+def determine_circle_radius(num):
+    """Logic from the original app"""
+    res = 0
+    if num < 10:
+        res = num * 0.75
+    elif num > 25:
+        res = num * 0.25
+    elif num > 0.5:
+        res = num * 0.2
+    else:
+        res = num * 0.1
+    return int(res * 10_000)
 
 
 @module.ui
@@ -76,6 +89,10 @@ def map_server(input, output, session, is_wb_data):
         no_wrap=True,
         layout=Layout(width="100%", height="100%"),
     )
+    circles = L.LayerGroup()
+
+    map.add_layer(circles)
+
     geo_json = L.GeoJSON(
         data=data,
         style={
@@ -97,36 +114,24 @@ def map_server(input, output, session, is_wb_data):
 
     @reactive.Effect
     def _():
-        # TODO: remove points layer in a proper way
-        if len(map.layers) > 2:  # pyright: ignore
-            map.remove_layer(map.layers[2])  # pyright: ignore
-        gdf = geopandas.GeoDataFrame(
-            data=point_data(),
-            geometry=geopandas.points_from_xy(  # pyright: ignore
-                point_data().lng, point_data().lat
-            ),
-        )
-        geo_data = L.GeoData(
-            geo_dataframe=gdf,
-            style={
-                "color": "black",
-                "radius": 8,
-                "fillColor": "#3366cc",
-                "opacity": 0.5,
-                "weight": 1.9,
-                "dashArray": "2",
-                "fillOpacity": 0.6,
-            },
-            hover_style={"fillColor": "red", "fillOpacity": 0.2},
-            point_style={
-                "radius": 5,
-                "color": "red",
-                "fillOpacity": 0.8,
-                "fillColor": "blue",
-                "weight": 3,
-            },
-            name="points",
-        )
-        map.add_layer(geo_data)
+
+        # remove layers first
+        circles.clear_layers()
+
+        for i in range(point_data().shape[0]):
+            row = point_data().iloc[i, :]  # pyright: ignore
+            circle = L.Circle()
+            circle.name = "points"
+            circle.location = (row.lat, row.lng)
+            circle.weight = 1
+            circle.radius = determine_circle_radius(row["Death.Rate"])
+            circle.color = "white"
+            circle.fill_color = "green"  # TODO: add palette
+            circle.fill_opacity = 0.5
+            circle.popup = L.Popup(
+                child=HTML(str(round(row["Death.Rate"], 2)))
+            )
+            circle.opacity = 0.7
+            circles.add_layer(circle)
 
     register_widget("map", map)
