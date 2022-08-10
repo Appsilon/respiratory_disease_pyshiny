@@ -4,7 +4,7 @@ from pandas import read_csv
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
-from ipywidgets import Layout, HTML
+from ipywidgets import Layout
 import ipyleaflet as L
 
 from utils.helper_text import (
@@ -128,9 +128,6 @@ def map_server(input, output, session, is_wb_data):
             circle.color = "white"
             circle.fill_color = "green"  # TODO: add palette
             circle.fill_opacity = 0.5
-            circle.popup = L.Popup(
-                child=HTML(str(round(row["Death.Rate"], 2)))
-            )
             circle.opacity = 0.7
             circles.add_layer(circle)
 
