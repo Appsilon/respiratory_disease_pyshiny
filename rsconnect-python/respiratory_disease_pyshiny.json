@@ -1,0 +1,20 @@
+{
+    "https://sparktuga.shinyapps.io/": {
+        "server_url": "https://sparktuga.shinyapps.io/",
+        "filename": "/mnt/c/code/respiratory_disease_pyshiny",
+        "app_url": "https://sparktuga.shinyapps.io/content/c8b96904-9e1b-46d8-96d0-6b6f0bcedc2d/",
+        "app_id": 140,
+        "app_guid": "c8b96904-9e1b-46d8-96d0-6b6f0bcedc2d",
+        "title": "respiratory_disease_pyshiny",
+        "app_mode": "python-shiny"
+    },
+    "https://api.shinyapps.io": {
+        "server_url": "https://api.shinyapps.io",
+        "filename": "/mnt/c/code/respiratory_disease_pyshiny",
+        "app_url": "https://sparktuga.shinyapps.io/respiratory_disease_pyshiny/",
+        "app_id": 6764110,
+        "app_guid": null,
+        "title": "respiratory_disease_pyshiny",
+        "app_mode": "python-shiny"
+    }
+}
