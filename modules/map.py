@@ -1,6 +1,8 @@
 import random
 import json
-from shiny import ui, module
+import geopandas
+from pandas import read_csv
+from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
 from ipywidgets import Layout
@@ -13,6 +15,8 @@ from utils.helper_text import (
     slider_text_map,
 )
 
+map_data_world_bank = read_csv("data/map_data_world_bank.csv")
+map_data_oecd = read_csv("data/map_data_oecd.csv")
 
 with open("data/countries.geojson", "r") as f:
     data = json.load(f)
@@ -51,7 +55,15 @@ def map_ui():
 
 
 @module.server
-def map_server(input, output, session):
+def map_server(input, output, session, is_wb_data):
+    @reactive.Calc
+    def point_data():
+        if is_wb_data():
+            return map_data_world_bank[
+                map_data_world_bank.Year == input.years_value()
+            ]
+        return map_data_oecd[map_data_oecd.Year == input.years_value()]
+
     # Initialize and display when the session starts (1)
     map = L.Map(
         # TODO: this is how it's done in tutorial :)
@@ -72,9 +84,49 @@ def map_server(input, output, session):
             "fillOpacity": 0.1,
             "weight": 1,
         },
-        hover_style={"color": "white", "dashArray": "0", "fillOpacity": 0.5},
+        hover_style={
+            "color": "black",
+            "weight": 2,
+            "dashArray": "0",
+            "fillOpacity": 0.5,
+        },
+        name="polygons",
         style_callback=random_color,
     )
-    # Add a distance scale
     map.add_layer(geo_json)
+
+    @reactive.Effect
+    def _():
+        # TODO: somehow remove the layer before adding a new one
+        # point_layer = filter(lambda x: x.name == "points", map.layers)
+        # map.remove_layer(point_layer)
+        gdf = geopandas.GeoDataFrame(
+            data=point_data(),
+            geometry=geopandas.points_from_xy(  # pyright: ignore
+                point_data().lng, point_data().lat
+            ),
+        )
+        geo_data = L.GeoData(
+            geo_dataframe=gdf,
+            style={
+                "color": "black",
+                "radius": 8,
+                "fillColor": "#3366cc",
+                "opacity": 0.5,
+                "weight": 1.9,
+                "dashArray": "2",
+                "fillOpacity": 0.6,
+            },
+            hover_style={"fillColor": "red", "fillOpacity": 0.2},
+            point_style={
+                "radius": 5,
+                "color": "red",
+                "fillOpacity": 0.8,
+                "fillColor": "blue",
+                "weight": 3,
+            },
+            name="points",
+        )
+        map.add_layer(geo_data)
+
     register_widget("map", map)

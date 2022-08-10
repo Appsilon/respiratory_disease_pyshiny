@@ -92,7 +92,7 @@ def server(input, output, session: Session):
     def is_wb_data():
         return input.dataset()
 
-    map.map_server("map")
+    map.map_server("map", is_wb_data)
     plot.plot_server("plot", is_wb_data)
 
     @reactive.Effect
