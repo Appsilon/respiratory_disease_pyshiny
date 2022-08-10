@@ -97,9 +97,9 @@ def map_server(input, output, session, is_wb_data):
 
     @reactive.Effect
     def _():
-        # TODO: somehow remove the layer before adding a new one
-        # point_layer = filter(lambda x: x.name == "points", map.layers)
-        # map.remove_layer(point_layer)
+        # TODO: remove points layer in a proper way
+        if len(map.layers) > 2:
+            map.remove_layer(map.layers[2])
         gdf = geopandas.GeoDataFrame(
             data=point_data(),
             geometry=geopandas.points_from_xy(  # pyright: ignore
