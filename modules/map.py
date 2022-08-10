@@ -6,7 +6,7 @@ from shinywidgets import output_widget, register_widget
 from ipywidgets import Layout
 import ipyleaflet as L
 
-from utils.sidebar_text import (
+from utils.helper_text import (
     about_text,
     missing_note,
     dataset_information,

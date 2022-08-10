@@ -5,7 +5,7 @@ from shinywidgets import (
     output_widget,
     render_widget,
 )
-from utils.sidebar_text import (
+from utils.helper_text import (
     about_text,
     slider_text_plot,
     dataset_information,

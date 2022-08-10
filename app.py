@@ -2,6 +2,7 @@ from pathlib import Path
 from shiny import App, ui, reactive, Session
 
 from modules import map, plot
+from utils.helper_text import info_modal
 
 app_ui = ui.page_fluid(
     ui.tags.head(
@@ -79,6 +80,14 @@ app_ui = ui.page_fluid(
 
 
 def server(input, output, session: Session):
+
+    info_modal()
+
+    @reactive.Effect
+    @reactive.event(input.info_icon)
+    def _():
+        info_modal()
+
     map.map_server("map")
     plot.plot_server("plot")
 
