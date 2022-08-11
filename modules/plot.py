@@ -22,8 +22,8 @@ country_choices = data_oecd["Entity"].unique().tolist() + ["World"]
 
 @module.ui
 def plot_ui():
-    return ui.layout_sidebar(
-        sidebar=ui.panel_sidebar(
+    return ui.tags.div(
+        ui.tags.div(
             about_text,
             ui.tags.hr(),
             slider_text_plot,
@@ -47,13 +47,15 @@ def plot_ui():
             dataset_information,
             ui.tags.hr(),
             missing_note,
-            class_="plot-sidebar",
+            class_="main-sidebar card-style",
         ),
-        main=ui.panel_main(
+        ui.tags.div(
             output_widget("dr_plot"),
             ui.tags.hr(),
             output_widget("pm_plot"),
+            class_="main-main card-style",
         ),
+        class_="main-layout",
     )
 
 
