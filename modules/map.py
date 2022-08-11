@@ -1,4 +1,5 @@
 from pandas import read_csv
+from geopandas import read_file
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
@@ -11,11 +12,12 @@ from utils.helper_text import (
     dataset_information,
     slider_text_map,
 )
-from utils.map_utils import add_circles
+from utils.map_utils import add_circles, add_polygons
 
 
 map_data_world_bank = read_csv("data/map_data_world_bank.csv")
 map_data_oecd = read_csv("data/map_data_oecd.csv")
+polygon_data = read_file("data/countries.geojson")
 
 
 @module.ui
@@ -67,6 +69,10 @@ def map_server(input, output, session, is_wb_data):
     circles = L.LayerGroup()
     map.add_layer(circles)
 
+    # Polygon layer will later be filled reactively
+    polygons = L.LayerGroup()
+    map.add_layer(polygons)
+
     @reactive.Calc
     def point_data():
         if is_wb_data():
@@ -78,3 +84,7 @@ def map_server(input, output, session, is_wb_data):
     @reactive.Effect
     def _():
         add_circles(point_data(), circles)  # pyright: ignore
+
+    @reactive.Effect()
+    def _():
+        add_polygons(polygon_data, point_data(), polygons)  # pyright: ignore

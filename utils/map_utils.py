@@ -1,6 +1,10 @@
-from pandas import DataFrame
+import json
+from ipywidgets import HTML
+from branca.colormap import linear
+from pandas import DataFrame, merge
+from geopandas import GeoDataFrame
 from numpy import isnan
-from ipyleaflet import CircleMarker, LayerGroup
+from ipyleaflet import CircleMarker, LayerGroup, Choropleth
 
 
 def determine_circle_radius(num: float) -> int:
@@ -71,3 +75,40 @@ def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
         circle_markers.append(circle_marker)
     points = LayerGroup(layers=circle_markers)
     circle_layer.add_layer(points)
+
+
+def add_polygons(
+    polygon_data: GeoDataFrame,
+    points_data: DataFrame,
+    polygons_layer: LayerGroup,
+) -> None:
+    polygons_layer.clear_layers()
+    combined_data = merge(
+        polygon_data, points_data, left_on="id", right_on="Code"
+    )
+    geo_data = json.loads(combined_data.to_json())
+    choro_data = dict(
+        zip([str(i) for i in combined_data.index], combined_data["Death.Rate"])
+    )
+    choropleth_layer = Choropleth(
+        geo_data=geo_data,
+        choro_data=choro_data,
+        colormap=linear.GnBu_09,  # pyright: ignore
+        value_min=0,
+        value_max=70,
+        style={
+            "weight": 2,
+            "opacity": 1,
+            "fillOpacity": 0.5,
+            "color": "white",
+            "dashArray": "3",
+        },
+        hover_style={
+            "weight": 1,
+            "color": "#FFF",
+            "dashArray": "",
+            "fillOpacity": 0.8,
+            "bringToFront": False,
+        },
+    )
+    polygons_layer.add_layer(choropleth_layer)
