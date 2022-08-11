@@ -49,14 +49,6 @@ def map_ui():
 
 @module.server
 def map_server(input, output, session, is_wb_data):
-    @reactive.Calc
-    def point_data():
-        if is_wb_data():
-            return map_data_world_bank[
-                map_data_world_bank.Year == input.years_value()
-            ]
-        return map_data_oecd[map_data_oecd.Year == input.years_value()]
-
     # Initialize and display when the session starts (1)
     map = L.Map(
         # TODO: this is how it's done in tutorial :)
@@ -69,13 +61,21 @@ def map_server(input, output, session, is_wb_data):
         no_wrap=True,
         layout=Layout(width="100%", height="100%"),
     )
-    circles = L.LayerGroup()
+    register_widget("map", map)
 
+    # Circles Layer will later be filled with circleMarkers
+    circles = L.LayerGroup()
     map.add_layer(circles)
+
+    @reactive.Calc
+    def point_data():
+        if is_wb_data():
+            return map_data_world_bank[
+                map_data_world_bank.Year == input.years_value()
+            ]
+        return map_data_oecd[map_data_oecd.Year == input.years_value()]
 
     @reactive.Effect
     def _():
         circles.clear_layers()
         add_circles(point_data(), circles)  # pyright: ignore
-
-    register_widget("map", map)
