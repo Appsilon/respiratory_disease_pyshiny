@@ -19,26 +19,35 @@ def determine_circle_radius(num: float):
     return int(num * final_coef)
 
 
-def determine_circle_color(num):
+def determine_circle_color(num: float):
     if isnan(num):
-        color = "#D2D2D2"
-    elif num < 1:
-        color = "#F7FCF0"
-    elif num < 2:
-        color = "#E0F3DB"
-    elif num < 5:
-        color = "#CCEBC5"
-    elif num < 10:
-        color = "#A8DDB5"
-    elif num < 20:
-        color = "#7BCCC4"
-    elif num < 50:
-        color = "#4EB3D3"
-    elif num < 100:
-        color = "#2B8CBE"
-    else:
-        color = "#08589E"
-    return color
+        return "#D2D2D2"
+    num = int(num)
+
+    bins = [
+        range(1),
+        range(1, 2),
+        range(2, 5),
+        range(5, 10),
+        range(10, 20),
+        range(20, 50),
+        range(50, 100),
+    ]
+    colors = [
+        "#F7FCF0",
+        "#E0F3DB",
+        "#CCEBC5",
+        "#A8DDB5",
+        "#7BCCC4",
+        "#4EB3D3",
+        "#2B8CBE",
+    ]
+    final_color = "#08589E"
+
+    for bin, color in zip(bins, colors):
+        if num in bin:
+            return color
+    return final_color
 
 
 def add_circles(geodata: DataFrame, circle_layer: LayerGroup):
