@@ -55,6 +55,9 @@ def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
     circle_layer.clear_layers()
     circle_markers = []
     for _, row in geodata.iterrows():
+        popup = HTML(
+            f"<b>{row.Entity}:</b></br>" + str(round(row["Death.Rate"], 2))
+        )
         circle_marker = CircleMarker(
             location=[row["lat"], row["lng"]],
             radius=determine_circle_radius(row["Death.Rate"]),
@@ -63,6 +66,7 @@ def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
             opacity=0.7,
             fill_color=determine_circle_color(row["Death.Rate"]),
             fill_opacity=0.5,
+            popup=popup,
         )
         circle_markers.append(circle_marker)
     points = LayerGroup(layers=circle_markers)
