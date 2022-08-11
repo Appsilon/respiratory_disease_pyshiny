@@ -3,18 +3,20 @@ from numpy import isnan
 from ipyleaflet import CircleMarker, LayerGroup
 
 
-def determine_circle_radius(num):
-    """Logic from the original app"""
-    res = 0
-    if num < 10:
-        res = num * 0.75
-    elif num > 25:
-        res = num * 0.25
-    elif num > 0.5:
-        res = num * 0.2
-    else:
-        res = num * 0.1
-    return int(res)
+def determine_circle_radius(num: float):
+    """Circles are scaled differently in ipyleaflet compared to R/Leaflet,
+    hence different coefficients.
+    """
+    num = int(num)
+
+    bins = [range(10), range(10, 20), range(20, 25)]
+    coefficients = [1.1, 0.8, 0.75]
+    final_coef = 0.2
+
+    for bin, coef in zip(bins, coefficients):
+        if num in bin:
+            return int(num * coef)
+    return int(num * final_coef)
 
 
 def determine_circle_color(num):
