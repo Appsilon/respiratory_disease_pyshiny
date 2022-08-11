@@ -3,7 +3,7 @@ from numpy import isnan
 from ipyleaflet import CircleMarker, LayerGroup
 
 
-def determine_circle_radius(num: float):
+def determine_circle_radius(num: float) -> int:
     """Circles are scaled differently in ipyleaflet compared to R/Leaflet,
     hence different coefficients.
     """
@@ -19,7 +19,7 @@ def determine_circle_radius(num: float):
     return int(num * final_coef)
 
 
-def determine_circle_color(num: float):
+def determine_circle_color(num: float) -> str:
     if isnan(num):
         return "#D2D2D2"
     num = int(num)
@@ -50,7 +50,8 @@ def determine_circle_color(num: float):
     return final_color
 
 
-def add_circles(geodata: DataFrame, circle_layer: LayerGroup):
+def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
+    """Layer data is updated by reference, hence None return"""
     circle_layer.clear_layers()
     circle_markers = []
     for _, row in geodata.iterrows():
