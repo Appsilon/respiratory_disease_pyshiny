@@ -37,11 +37,11 @@ def map_ui():
             dataset_information,
             ui.tags.hr(),
             missing_note,
-            class_="main-sidebar",
+            class_="main-sidebar card-style",
         ),
         ui.tags.div(
             output_widget("map", width="auto", height="auto"),
-            class_="main-main",
+            class_="main-main card-style no-padding",
         ),
         class_="main-layout",
     )

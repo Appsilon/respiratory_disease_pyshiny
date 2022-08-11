@@ -54,12 +54,6 @@
   background-color: #f0f8ff;
 }
 
-#div-navbar-tabs {
-  margin-left: -48px;
-  width: 144px;
-  height: 50px;
-}
-
 #div-navbar-map {
   background-color: #f0f8ff;
   height: 50px;
@@ -84,11 +78,6 @@
 
 #div-navbar-plot:focus {
   background-color: #f0f8ff;
-}
-
-#div-navbar-selector {
-  margin-top: 6px;
-  position: absolute;
 }
 
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
@@ -126,6 +115,8 @@
   border: 1px solid #e3e3e3;
 }
 
-#plot-container {
-  display: none;
+.main-visible {
+  opacity: 1;
+  z-index: 1;
+  visibility: visible;
 }

@@ -47,13 +47,13 @@ def plot_ui():
             dataset_information,
             ui.tags.hr(),
             missing_note,
-            class_="main-sidebar",
+            class_="main-sidebar card-style",
         ),
         ui.tags.div(
             output_widget("dr_plot"),
             ui.tags.hr(),
             output_widget("pm_plot"),
-            class_="main-main",
+            class_="main-main card-style",
         ),
         class_="main-layout",
     )
