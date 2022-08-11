@@ -1,6 +1,6 @@
 from pandas import DataFrame
 from numpy import isnan
-from ipyleaflet import Circle, LayerGroup
+from ipyleaflet import CircleMarker, LayerGroup
 
 
 def determine_circle_radius(num):
@@ -14,7 +14,7 @@ def determine_circle_radius(num):
         res = num * 0.2
     else:
         res = num * 0.1
-    return int(res * 10_000)
+    return int(res)
 
 
 def determine_circle_color(num):
@@ -40,16 +40,18 @@ def determine_circle_color(num):
 
 
 def add_circles(geodata: DataFrame, circle_layer: LayerGroup):
-    for i in range(geodata.shape[0]):
-        row = geodata.iloc[i, :]  # pyright: ignore
-        circle = Circle()
-        circle.name = "points"
-        circle.location = (row.lat, row.lng)
-        circle.weight = 1
-        circle.radius = determine_circle_radius(row["Death.Rate"])
-        circle.color = "white"
-        circle.fill_color = determine_circle_color(row["PM2.5"])
-        circle.fill_opacity = 0.5
-        circle.opacity = 0.7
-        circle_layer.add_layer(circle)
-    return circle_layer
+    circle_layer.clear_layers()
+    circle_markers = []
+    for _, row in geodata.iterrows():
+        circle_marker = CircleMarker(
+            location=[row["lat"], row["lng"]],
+            radius=determine_circle_radius(row["Death.Rate"]),
+            weight=1,
+            color="white",
+            opacity=0.7,
+            fill_color=determine_circle_color(row["Death.Rate"]),
+            fill_opacity=0.5,
+        )
+        circle_markers.append(circle_marker)
+    points = LayerGroup(layers=circle_markers)
+    circle_layer.add_layer(points)

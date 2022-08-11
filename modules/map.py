@@ -77,5 +77,4 @@ def map_server(input, output, session, is_wb_data):
 
     @reactive.Effect
     def _():
-        circles.clear_layers()
         add_circles(point_data(), circles)  # pyright: ignore
