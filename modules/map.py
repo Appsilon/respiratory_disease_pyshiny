@@ -1,5 +1,3 @@
-from pandas import read_csv
-from geopandas import read_file
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
@@ -13,11 +11,7 @@ from utils.helper_text import (
     slider_text_map,
 )
 from utils.map_utils import add_circles, add_polygons
-
-
-map_data_world_bank = read_csv("data/map_data_world_bank.csv")
-map_data_oecd = read_csv("data/map_data_oecd.csv")
-polygon_data = read_file("data/countries.geojson")
+from data import polygon_data, map_data_oecd, map_data_world_bank
 
 
 @module.ui
