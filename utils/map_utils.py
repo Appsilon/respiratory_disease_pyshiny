@@ -1,5 +1,6 @@
 from pandas import DataFrame
 from numpy import isnan
+from ipywidgets import HTML
 from ipyleaflet import CircleMarker, LayerGroup
 
 
