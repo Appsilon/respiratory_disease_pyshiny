@@ -22,3 +22,6 @@ map_data_oecd = (
     .drop(["lng", "lat"], axis=1)
     .merge(points_from_polygons, on="Code")
 )
+
+plot_data_world_bank = read_csv("data/plot_data_world_bank.csv")
+plot_data_oecd = read_csv("data/plot_data_oecd.csv")

@@ -11,9 +11,9 @@ from utils.helper_text import (
     dataset_information,
     missing_note,
 )
-from data import map_data_oecd, map_data_world_bank
+from data import plot_data_oecd, plot_data_world_bank
 
-country_choices = map_data_oecd["Entity"].unique().tolist() + ["World"]
+country_choices = plot_data_oecd["Entity"].unique().tolist() + ["World"]
 
 
 @module.ui
@@ -60,8 +60,8 @@ def plot_server(input, output, session, is_wb_data):
     @reactive.Calc
     def data():
         if is_wb_data():
-            return map_data_world_bank
-        return map_data_oecd
+            return plot_data_world_bank
+        return plot_data_oecd
 
     @reactive.Calc
     def fig_one():
