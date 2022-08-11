@@ -1,5 +1,3 @@
-import random
-import json
 from pandas import read_csv
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
@@ -18,16 +16,6 @@ from utils.map_utils import add_circles
 
 map_data_world_bank = read_csv("data/map_data_world_bank.csv")
 map_data_oecd = read_csv("data/map_data_oecd.csv")
-
-with open("data/countries.geojson", "r") as f:
-    data = json.load(f)
-
-
-def random_color(feature):
-    return {
-        "color": "black",
-        "fillColor": random.choice(["red", "yellow", "green", "orange"]),
-    }
 
 
 @module.ui
@@ -84,25 +72,6 @@ def map_server(input, output, session, is_wb_data):
     circles = L.LayerGroup()
 
     map.add_layer(circles)
-
-    geo_json = L.GeoJSON(
-        data=data,
-        style={
-            "opacity": 1,
-            "dashArray": "9",
-            "fillOpacity": 0.1,
-            "weight": 1,
-        },
-        hover_style={
-            "color": "black",
-            "weight": 2,
-            "dashArray": "0",
-            "fillOpacity": 0.5,
-        },
-        name="polygons",
-        style_callback=random_color,
-    )
-    map.add_layer(geo_json)
 
     @reactive.Effect
     def _():
