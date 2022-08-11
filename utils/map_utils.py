@@ -65,7 +65,7 @@ def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
             weight=1,
             color="white",
             opacity=0.7,
-            fill_color=determine_circle_color(row["Death.Rate"]),
+            fill_color=determine_circle_color(row["PM2.5"]),
             fill_opacity=0.5,
             popup=popup,
         )
