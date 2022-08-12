@@ -12,8 +12,14 @@ from utils.helper_text import (
 from utils.plot_utils import create_figure
 from data import plot_data_oecd, plot_data_world_bank
 
-country_choices = plot_data_oecd["Entity"].unique().tolist() + ["World"]
+# for file in os.walk('.'):
+#     if "data" in file[0]:
+#         data_path = file[0]
 
+# data_oecd = read_csv(f"{data_path}/plot_data_oecd.csv")
+# data_world_bank = read_csv(f"{data_path}/plot_data_world_bank.csv")
+
+country_choices = plot_data_oecd["Entity"].unique().tolist() + ["World"]
 
 @module.ui
 def plot_ui():

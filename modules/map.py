@@ -2,6 +2,7 @@ from typing import cast
 from pandas import DataFrame
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
+import os
 
 from ipywidgets import Layout
 from ipyleaflet import Map, LayerGroup, basemaps
