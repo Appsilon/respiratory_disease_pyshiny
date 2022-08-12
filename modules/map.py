@@ -1,8 +1,10 @@
+from typing import cast
+from pandas import DataFrame
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
 from ipywidgets import Layout
-import ipyleaflet as L
+from ipyleaflet import Map, LayerGroup, basemaps
 
 from utils.helper_text import (
     about_text,
@@ -10,8 +12,10 @@ from utils.helper_text import (
     dataset_information,
     slider_text_map,
 )
-from utils.map_utils import add_circles, add_polygons
+from utils.map_utils import add_circles, add_polygons, filter_data
 from data import polygon_data, map_data_oecd, map_data_world_bank
+
+basemap = cast(dict, basemaps)
 
 
 @module.ui
@@ -46,9 +50,8 @@ def map_ui():
 @module.server
 def map_server(input, output, session, is_wb_data):
     # Initialize and display when the session starts (1)
-    map = L.Map(
-        # TODO: this is how it's done in tutorial :)
-        basemap=L.basemaps.CartoDB.Positron,  # pyright: ignore
+    map = Map(
+        basemap=basemap["CartoDB"]["Positron"],
         center=(50, 10),
         zoom=5,
         scroll_wheel_zoom=True,
@@ -60,25 +63,23 @@ def map_server(input, output, session, is_wb_data):
     register_widget("map", map)
 
     # Circles Layer will later be filled with circleMarkers
-    circles = L.LayerGroup()
-    map.add_layer(circles)
+    circle_markers_layer = LayerGroup()
+    map.add_layer(circle_markers_layer)
 
     # Polygon layer will later be filled reactively
-    polygons = L.LayerGroup()
-    map.add_layer(polygons)
+    choropleth_layer = LayerGroup()
+    map.add_layer(choropleth_layer)
 
     @reactive.Calc
-    def point_data():
+    def point_data() -> DataFrame:
         if is_wb_data():
-            return map_data_world_bank[
-                map_data_world_bank.Year == input.years_value()
-            ]
-        return map_data_oecd[map_data_oecd.Year == input.years_value()]
+            return filter_data(map_data_world_bank, input.years_value())
+        return filter_data(map_data_oecd, input.years_value())
 
     @reactive.Effect
-    def _():
-        add_circles(point_data(), circles)  # pyright: ignore
+    def _() -> None:
+        add_circles(point_data(), circle_markers_layer)
 
     @reactive.Effect()
-    def _():
-        add_polygons(polygon_data, point_data(), polygons)  # pyright: ignore
+    def _() -> None:
+        add_polygons(polygon_data, point_data(), choropleth_layer)
