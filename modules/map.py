@@ -1,4 +1,4 @@
-from pandas import read_csv
+from typing import cast
 from geopandas import read_file
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
@@ -14,6 +14,7 @@ from utils.helper_text import (
 )
 from utils.map_utils import add_circles, add_polygons
 
+basemap = cast(dict, basemaps)
 
 map_data_world_bank = read_csv("data/map_data_world_bank.csv")
 map_data_oecd = read_csv("data/map_data_oecd.csv")
@@ -53,7 +54,7 @@ def map_ui():
 def map_server(input, output, session, is_wb_data):
     # Initialize and display when the session starts (1)
     map = Map(
-        basemap=basemaps.CartoDB.Positron,  # pyright: ignore
+        basemap=basemap["CartoDB"]["Positron"],
         center=(50, 10),
         zoom=5,
         scroll_wheel_zoom=True,
