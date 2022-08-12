@@ -19,9 +19,9 @@
     },
     "https://connect.appsilon.com/": {
         "server_url": "https://connect.appsilon.com/",
-        "filename": "/home/kuba/projects/respiratory_disease_pyshiny",
-        "app_url": "https://connect.appsilon.com/content/d3ce58dc-983e-430b-b32f-279375c2f9dc/",
-        "app_id": 143,
+        "filename": "/mnt/c/code/respiratory_disease_pyshiny",
+        "app_url": "https://connect.appsilon.com/respiratory_disease_pyshiny/",
+        "app_id": "d3ce58dc-983e-430b-b32f-279375c2f9dc",
         "app_guid": "d3ce58dc-983e-430b-b32f-279375c2f9dc",
         "title": "respiratory_disease_pyshiny",
         "app_mode": "python-shiny"
