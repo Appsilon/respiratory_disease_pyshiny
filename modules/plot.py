@@ -31,12 +31,12 @@ def plot_ui():
                 value=[2010, 2015],
                 sep="",
             ),
-            ui.input_select(
+            ui.input_selectize(
                 id="country_select",
                 label="Select Countries:",
                 choices=country_choices,
                 selected="World",
-                # multiple option does not work
+                multiple=True,
             ),
             ui.tags.hr(),
             dataset_information,
