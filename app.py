@@ -64,7 +64,7 @@ page_header = ui.tags.div(
 
     ui.tags.div(
         ui.input_switch(
-            id="dataset", label="Dataset Select", value=True
+            id="dataset", label="OECD", value=True
         ),
         id="div-navbar-selector",
         class_="navigation-dataset",
