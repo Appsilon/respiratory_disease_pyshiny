@@ -21,9 +21,17 @@ def create_figure(
         color="Entity",
         title=title,
         labels=labels,
+        color_discrete_sequence=px.colors.colorbrewer.Blues[1:],
     )
 
-    fig.update_layout(plot_bgcolor="white")
+    fig.update_traces(
+        mode="markers+lines",
+        hovertemplate=None,
+        line=dict(width=5),
+        marker=dict(size=15),
+    )
+    fig.update_layout(plot_bgcolor="white", hovermode="x unified")
+
     fig.update_xaxes(showline=False, gridcolor="#d2d2d2", gridwidth=0.5)
     fig.update_yaxes(showline=False, gridcolor="#d2d2d2", gridwidth=0.5)
 
