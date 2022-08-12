@@ -4,7 +4,7 @@ from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
 from ipywidgets import Layout
-import ipyleaflet as L
+from ipyleaflet import Map, LayerGroup, basemaps
 
 from utils.helper_text import (
     about_text,
@@ -52,9 +52,8 @@ def map_ui():
 @module.server
 def map_server(input, output, session, is_wb_data):
     # Initialize and display when the session starts (1)
-    map = L.Map(
-        # TODO: this is how it's done in tutorial :)
-        basemap=L.basemaps.CartoDB.Positron,  # pyright: ignore
+    map = Map(
+        basemap=basemaps.CartoDB.Positron,  # pyright: ignore
         center=(50, 10),
         zoom=5,
         scroll_wheel_zoom=True,
@@ -66,11 +65,11 @@ def map_server(input, output, session, is_wb_data):
     register_widget("map", map)
 
     # Circles Layer will later be filled with circleMarkers
-    circles = L.LayerGroup()
+    circles = LayerGroup()
     map.add_layer(circles)
 
     # Polygon layer will later be filled reactively
-    polygons = L.LayerGroup()
+    polygons = LayerGroup()
     map.add_layer(polygons)
 
     @reactive.Calc
