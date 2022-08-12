@@ -1,4 +1,4 @@
-shiny
+shiny==0.2.4.9000
 pathlib
 shinywidgets
 ipywidgets
