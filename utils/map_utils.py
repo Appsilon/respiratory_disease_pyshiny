@@ -114,5 +114,5 @@ def add_polygons(
     polygons_layer.add_layer(choropleth_layer)
 
 
-def fiilter_data(data: DataFrame, year: int) -> DataFrame:
+def filter_data(data: DataFrame, year: int) -> DataFrame:
     return data[data["Year"] == year]

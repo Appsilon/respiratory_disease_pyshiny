@@ -1,6 +1,5 @@
 from typing import cast
-from pandas import read_csv, DataFrame
-from geopandas import read_file
+from pandas import DataFrame
 from shiny import ui, module, reactive
 from shinywidgets import output_widget, register_widget
 
@@ -13,13 +12,10 @@ from utils.helper_text import (
     dataset_information,
     slider_text_map,
 )
-from utils.map_utils import add_circles, add_polygons, fiilter_data
+from utils.map_utils import add_circles, add_polygons, filter_data
+from data import polygon_data, map_data_oecd, map_data_world_bank
 
 basemap = cast(dict, basemaps)
-
-map_data_world_bank = read_csv("data/map_data_world_bank.csv")
-map_data_oecd = read_csv("data/map_data_oecd.csv")
-polygon_data = read_file("data/countries.geojson")
 
 
 @module.ui
@@ -77,8 +73,8 @@ def map_server(input, output, session, is_wb_data):
     @reactive.Calc
     def point_data() -> DataFrame:
         if is_wb_data():
-            return fiilter_data(map_data_world_bank, input.years_value())
-        return fiilter_data(map_data_oecd, input.years_value())
+            return filter_data(map_data_world_bank, input.years_value())
+        return filter_data(map_data_oecd, input.years_value())
 
     @reactive.Effect
     def _() -> None:
