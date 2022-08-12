@@ -1,10 +1,14 @@
 from pandas import read_csv
 import os
+import sys
 
-for file in os.walk('.'):
-    if "data" in file[0]:
-        data_path = file[0]
-        break
+data_path = "data"
+
+if sys.platform == 'emscripten':
+    for file in os.walk('.'):
+        if "data" in file[0]:
+            data_path = file[0]
+            break
 
 polygon_data = read_csv(f"{data_path}/countries.csv")
 polygon_data["coordinates"] = polygon_data["coordinates"].apply(eval)
