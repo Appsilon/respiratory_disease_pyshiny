@@ -11,7 +11,24 @@ page_dependencies = ui.tags.head(
 
     # PWA Support
     ui.tags.script("""
-        $('head').append('<link rel="manifest" href="pwa/manifest.json"/>');
+
+        async function delayManifest() {
+            let retries = 100;
+            let statusCode = 404;
+            let response;
+
+            while (statusCode === 404 && --retries > 0) {
+                response = await fetch("pwa/manifest.json");
+                statusCode = response.statusCode;
+            }
+
+            if (response.statusCode === 404) throw new Error('max retries reached');
+
+            $('head').append('<link rel="manifest" href="pwa/manifest.json"/>');
+
+            return response;
+        }
+        delayManifest();
 
         if('serviceWorker' in navigator) {
           navigator.serviceWorker
