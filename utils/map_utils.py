@@ -1,8 +1,6 @@
-import json
 from ipywidgets import HTML
 from branca.colormap import linear
 from pandas import DataFrame, merge
-from geopandas import GeoDataFrame
 from numpy import isnan
 from ipyleaflet import CircleMarker, LayerGroup, Choropleth
 
@@ -78,7 +76,7 @@ def add_circles(geodata: DataFrame, circle_layer: LayerGroup) -> None:
 
 
 def add_polygons(
-    polygon_data: GeoDataFrame,
+    polygon_data: DataFrame,
     points_data: DataFrame,
     polygons_layer: LayerGroup,
 ) -> None:
@@ -86,10 +84,8 @@ def add_polygons(
     combined_data = merge(
         polygon_data, points_data, left_on="id", right_on="Code"
     )
-    geo_data = json.loads(combined_data.to_json())
-    choro_data = dict(
-        zip([str(i) for i in combined_data.index], combined_data["Death.Rate"])
-    )
+    geo_data = dataframe_to_geojson(combined_data)
+    choro_data = dict(zip(combined_data["id"], combined_data["Death.Rate"]))
     choropleth_layer = Choropleth(
         geo_data=geo_data,
         choro_data=choro_data,
@@ -116,3 +112,19 @@ def add_polygons(
 
 def filter_data(data: DataFrame, year: int) -> DataFrame:
     return data[data["Year"] == year]
+
+
+def dataframe_to_geojson(df: DataFrame) -> dict:
+    geojson = {"type": "FeatureCollection", "features": []}
+    for _, row in df.iterrows():
+        feature = {
+            "type": "Feature",
+            "id": row["id"],
+            "properties": {},
+            "geometry": {
+                "type": row["type"],
+                "coordinates": row["coordinates"],
+            },
+        }
+        geojson["features"].append(feature)
+    return geojson
