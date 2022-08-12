@@ -32,12 +32,12 @@ def plot_ui():
                 value=[2010, 2015],
                 sep="",
             ),
-            ui.input_select(
+            ui.input_selectize(
                 id="country_select",
                 label="Select Countries:",
                 choices=country_choices,
                 selected="World",
-                # multiple option does not work
+                multiple=True,
             ),
             ui.tags.hr(),
             dataset_information,
@@ -70,7 +70,7 @@ def plot_server(input, output, session, is_wb_data):
                 input.years_value()[0], input.years_value()[1]
             )
         ]
-        plot_data = plot_data[plot_data["Entity"] == input.country_select()]
+        plot_data = plot_data[plot_data["Entity"].isin(input.country_select())]
         fig = px.line(
             data_frame=plot_data,
             x="Year",
@@ -91,7 +91,7 @@ def plot_server(input, output, session, is_wb_data):
                 input.years_value()[0], input.years_value()[1]
             )
         ]
-        plot_data = plot_data[plot_data["Entity"] == input.country_select()]
+        plot_data = plot_data[plot_data["Entity"].isin(input.country_select())]
         fig = px.line(
             data_frame=plot_data,
             x="Year",
