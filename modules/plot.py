@@ -1,5 +1,3 @@
-import plotly.graph_objects as go
-import plotly.express as px
 from shiny import ui, module, reactive
 from shinywidgets import (
     output_widget,
@@ -11,6 +9,7 @@ from utils.helper_text import (
     dataset_information,
     missing_note,
 )
+from utils.plot_utils import create_figure
 from data import plot_data_oecd, plot_data_world_bank
 
 country_choices = plot_data_oecd["Entity"].unique().tolist() + ["World"]
@@ -65,41 +64,31 @@ def plot_server(input, output, session, is_wb_data):
 
     @reactive.Calc
     def fig_one():
-        plot_data = data()[
-            data()["Year"].between(
-                input.years_value()[0], input.years_value()[1]
-            )
-        ]
-        plot_data = plot_data[plot_data["Entity"].isin(input.country_select())]
-        fig = px.line(
-            data_frame=plot_data,
-            x="Year",
-            y="Death.Rate",
-            color="Entity",
+        return create_figure(
+            data=data(),
+            year_range=input.years_value(),
+            country=input.country_select(),
+            y_from="Death.Rate",
             title="Death Rate From Respiratory Diseases",
             labels={
                 "Year": "Year",
                 "Death.Rate": "Deaths per 100,000",
             },
         )
-        return go.FigureWidget(fig)
 
     @reactive.Calc
     def fig_two():
-        plot_data = data()[
-            data()["Year"].between(
-                input.years_value()[0], input.years_value()[1]
-            )
-        ]
-        plot_data = plot_data[plot_data["Entity"].isin(input.country_select())]
-        fig = px.line(
-            data_frame=plot_data,
-            x="Year",
-            y="PM2.5",
-            color="Entity",
+        return create_figure(
+            data=data(),
+            year_range=input.years_value(),
+            country=input.country_select(),
+            y_from="PM2.5",
             title="PM2.5 Measure",
+            labels={
+                "Year": "Year",
+                "PM2.5": "PM2.5",
+            },
         )
-        return go.FigureWidget(fig)
 
     @output(suspend_when_hidden=False)
     @render_widget
