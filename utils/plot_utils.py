@@ -23,4 +23,8 @@ def create_figure(
         labels=labels,
     )
 
+    fig.update_layout(plot_bgcolor="white")
+    fig.update_xaxes(showline=False, gridcolor="#d2d2d2", gridwidth=0.5)
+    fig.update_yaxes(showline=False, gridcolor="#d2d2d2", gridwidth=0.5)
+
     return go.FigureWidget(fig)
