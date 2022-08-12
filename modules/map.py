@@ -67,12 +67,12 @@ def map_server(input, output, session, is_wb_data):
     register_widget("map", map)
 
     # Circles Layer will later be filled with circleMarkers
-    circles = LayerGroup()
-    map.add_layer(circles)
+    circle_markers_layer = LayerGroup()
+    map.add_layer(circle_markers_layer)
 
     # Polygon layer will later be filled reactively
-    polygons = LayerGroup()
-    map.add_layer(polygons)
+    choropleth_layer = LayerGroup()
+    map.add_layer(choropleth_layer)
 
     @reactive.Calc
     def point_data() -> DataFrame:
@@ -81,9 +81,9 @@ def map_server(input, output, session, is_wb_data):
         return fiilter_data(map_data_oecd, input.years_value())
 
     @reactive.Effect
-    def _():
-        add_circles(point_data(), circles)  # pyright: ignore
+    def _() -> None:
+        add_circles(point_data(), circle_markers_layer)
 
     @reactive.Effect()
-    def _():
-        add_polygons(polygon_data, point_data(), polygons)  # pyright: ignore
+    def _() -> None:
+        add_polygons(polygon_data, point_data(), choropleth_layer)
