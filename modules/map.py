@@ -32,6 +32,7 @@ def map_ui():
                 min=1990,
                 max=2017,
                 value=2010,
+                sep="",
             ),
             ui.tags.hr(),
             dataset_information,
