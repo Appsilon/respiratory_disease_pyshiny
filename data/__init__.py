@@ -1,16 +1,9 @@
-from pandas import DataFrame, read_csv
-from geopandas import read_file
+from pandas import read_csv
 
 
-polygon_data = read_file("data/countries.geojson", crs=4326)
-centroid = polygon_data.geometry.centroid
-points_from_polygons = DataFrame(
-    {
-        "Code": polygon_data["id"],
-        "lng": centroid.x,
-        "lat": centroid.y,
-    }
-)
+polygon_data = read_csv("data/countries.csv")
+polygon_data["coordinates"] = polygon_data["coordinates"].apply(eval)
+points_from_polygons = read_csv("data/points_from_polygons.csv")
 
 map_data_world_bank = (
     read_csv("data/map_data_world_bank.csv")
