@@ -124,15 +124,13 @@
 
 input#dataset {
   position: relative;
-  margin-left: 25px;
 }
 label[for=dataset] {
-  margin-left: 10px;
 }
 input#dataset:before {
-    content: "World Bank";
+    content: "OECD";
     position: absolute;
-    left: -91px;
+    right: calc(100% + 10px);
     top: -5px;
     bottom: 0;
     margin: auto;
