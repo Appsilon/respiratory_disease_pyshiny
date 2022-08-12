@@ -85,7 +85,7 @@ pytz==2022.1
 pyzmq==23.2.0
 Send2Trash==1.8.0
 Shapely==1.8.2
-shiny==0.2.4
+git+https://github.com/rstudio/py-shiny@e969764#egg=shiny
 shinywidgets==0.1.2
 six==1.16.0
 sniffio==1.2.0
