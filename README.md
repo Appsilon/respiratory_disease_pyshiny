@@ -3,7 +3,7 @@
 This repository contains the result of the py-shiny app-sprint. The goal of this sprint was to "translate" an R/Shiny application into a "Shiny for Python" one, as well as to explore some PyShiny-specific features. Kindly find all the information about the original app in its [repository](https://github.com/Appsilon/respiratory_disease_app_sprint).
 
 ## Explore the app
-The "normal" app is deployed at [Appsilon RSConnect](https://connect.appsilon.com/respiratory_disease_pyshiny/). The WASM version aka Shinylive is deployed at https://connect.appsilon.com/respiratory_disease_shinylive/.
+The "normal" app is deployed at [Appsilon RSConnect](https://connect.appsilon.com/respiratory_disease_pyshiny/). The WASM version aka Shinylive is deployed at https://connect.appsilon.com/respiratory_disease_shinylive/. Please not that for a ShinyLive application a large bundle has to be downloaded which can take some time (but it will be cached and used later even without an internet connection).
 
 To run the app locally, clone the repo, create a virtual environment, install the dependencies and run the app and navigate to `localhost:8000` in the browser:
 
