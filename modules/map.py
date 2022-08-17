@@ -61,14 +61,17 @@ def map_server(input, output, session, is_wb_data):
         no_wrap=True,
         layout=Layout(width="100%", height="100%"),
     )
+    map.panes = {"circles": {"zIndex": 650}, "choropleth": {"zIndex": 750}}
     register_widget("map", map)
 
     # Circles Layer will later be filled with circleMarkers
     circle_markers_layer = LayerGroup()
+    circle_markers_layer.pane = "circles"
     map.add_layer(circle_markers_layer)
 
     # Polygon layer will later be filled reactively
     choropleth_layer = LayerGroup()
+    choropleth_layer.pane = "choropleth"
     map.add_layer(choropleth_layer)
 
     @reactive.Calc
