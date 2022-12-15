@@ -1,11 +1,13 @@
-# Respiratory Disease: PyShiny Version
+# Respiratory Disease: Shiny for Python Version
 
-This repository contains the result of the py-shiny app-sprint. The goal of this sprint was to "translate" an R/Shiny application into a "Shiny for Python" one, as well as to explore some PyShiny-specific features. Kindly find all the information about the original app in its [repository](https://github.com/Appsilon/respiratory_disease_app_sprint).
+This repository contains the result of a Py/Shiny (Shiny for Python) app-sprint during a hackathon. The goal of this sprint was to "translate" an R/Shiny application into a "Shiny for Python" version, as well as to explore some Py/Shiny-specific features. You can explore the original app as a [demo](https://connect.appsilon.com/respiratory_disease_app_sprint/). To see the original R/Shiny app code, please reach out to us. 
+
+Note: this app was built in August 2022 with the early Alpha version of Shiny for Python. Some solutions implemented here may be resolved in future Shiny for Python versions. Please review the [official documenation] (https://shiny.rstudio.com/py/docs/get-started.html) for current information. 
 
 ## Explore the app
-The "normal" app is deployed at [Appsilon RSConnect](https://connect.appsilon.com/respiratory_disease_pyshiny/). The WASM version aka Shinylive is deployed at https://connect.appsilon.com/respiratory_disease_shinylive/. Please not that for a ShinyLive application a large bundle has to be downloaded which can take some time (but it will be cached and used later even without an internet connection).
+The "normal" app is deployed at [Appsilon RSConnect](https://connect.appsilon.com/respiratory_disease_pyshiny/). The WASM version aka Shinylive is deployed at https://connect.appsilon.com/respiratory_disease_shinylive/. Please note, that for a ShinyLive application a large bundle has to be downloaded which can take some time (but it will be cached and used later - even without an internet connection).
 
-To run the app locally, clone the repo, create a virtual environment, install the dependencies and run the app and navigate to `localhost:8000` in the browser:
+To run the app locally, clone the repo, create a virtual environment, install the dependencies, and run the app and navigate to `localhost:8000` in the browser:
 
 ```shell
 git clone git@github.com:Appsilon/respiratory_disease_pyshiny.git
@@ -17,7 +19,7 @@ shiny run --port 8000 app.py
 ```
 
 ## Key Results
-TBD: A comprehensive summary of the sprint is to be published in a blog post (WIP).
+A [summary of the Py/Shiny app sprint](https://appsilon.com/pyshiny-demo/) can be found on our blog. You can also find a [summary of the original R/Shiny app sprint](https://appsilon.com/appsprints-r-shiny-app-development/).
 
 - Most of the original structure/logic has been preserved, unless a direct translation was impossible
 - Some UI changes have been introduced
