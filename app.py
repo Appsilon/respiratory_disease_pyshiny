@@ -147,14 +147,14 @@ def server(input, output, session: Session):
     @reactive.event(input.tab_map)
     async def _():
         await session.send_custom_message(
-            "toggleActiveTab", {"activeTab": "map"}
+            "toggleActiveTab", {"requestedTab": "map"}
         )
 
     @reactive.Effect
     @reactive.event(input.tab_plot)
     async def _():
         await session.send_custom_message(
-            "toggleActiveTab", {"activeTab": "plot"}
+            "toggleActiveTab", {"requestedTab": "plot"}
         )
 
 
